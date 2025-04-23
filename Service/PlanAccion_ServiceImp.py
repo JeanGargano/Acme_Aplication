@@ -8,11 +8,11 @@ class PlanDeAccionService(IPlanAccionService):
     def __init__(self):
         self.repo = PlanAccionRepository()
     
-    def crear(self, plan_de_accion: PlanDeAccion) -> str:
+    def crear_plan(self, plan_de_accion: PlanDeAccion) -> str:
         return self.repo.crear_plan(plan_de_accion)
 
-    def obtener_todos(self) -> List[PlanDeAccion]:
+    def listar_planes(self) -> List[PlanDeAccion]:
         return self.repo.listar_planes()
 
-    def obtener_por_id(self, plan_id: str) -> Optional[PlanDeAccion]:
+    def listar_plan_por_id(self, plan_id: str) -> Optional[PlanDeAccion]:
         return self.repo.listar_plan_por_id(plan_id)

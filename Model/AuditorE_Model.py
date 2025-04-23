@@ -6,10 +6,10 @@ from typing import Annotated
 ObjectIdStr = Annotated[str, Field(pattern="^[a-f\d]{24}$")]
 
 class AuditorExterno(BaseModel):
-    id: ObjectIdStr = Field(alias="_id")
+    id: str = Field(..., alias="_id", pattern="^[a-f\d]{24}$")
     nombre: str
 
     class Config:
-        allow_population_by_field_name = True
+        validate_by_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
