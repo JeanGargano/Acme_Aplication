@@ -7,13 +7,13 @@ class FormularioService(IFormularioService):
     def __init__(self):
         self.repo = FormularioRepository()
 
-    def crear(self, formulario: Formulario) -> str:
+    def crear_formulario(self, formulario: Formulario) -> str:
         return self.repo.crear_formulario(formulario)
     
-    def listar(self) -> List[Formulario]:
+    def listar_formularios(self) -> List[Formulario]:
         return self.repo.listar_formularios()
 
-    def obtener_por_id(self, formulario_id: str) -> Optional[Formulario]:
+    def listar_formulario_por_id(self, formulario_id: str) -> Optional[Formulario]:
         return self.repo.listar_formulario_por_id(formulario_id)
 
 
