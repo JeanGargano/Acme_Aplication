@@ -1,0 +1,48 @@
+#Endpoints para formulario
+from fastapi import APIRouter, Depends, HTTPException, Query
+from Model.FormularioModel import FormularioModel
+from Service.FormularioServiceImp import FormularioServiceImp
+from typing import List
+
+router = APIRouter()
+
+# Controlador para crear formulario
+@router.post("/crear_formulario")
+def crear_formulario(
+    formulario: FormularioModel,
+    service: FormularioServiceImp = Depends()
+):
+    try:
+        form = service.crear_formulario(formulario)
+        if form:
+            return "Formulario guardado exitosamente"
+        else:
+            raise HTTPException(status_code=500, detail="Error en el servicio")
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error al crear el formulario")
+
+# Controlador para listar formularios
+@router.get("/listar_formularios",)
+def listar_formularios(service: FormularioServiceImp = Depends()):
+    try:
+        return service.listar_formularios()
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error interno del servidor")
+
+# Controlador para listar formulario por norma
+@router.get("/listar_por_norma")
+def listar_formulario_por_norma(
+    norma: str = Query(...),
+    service: FormularioServiceImp = Depends()
+):  
+    try:
+        return service.listar_formulario_por_norma(norma)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error interno del servidor")
+

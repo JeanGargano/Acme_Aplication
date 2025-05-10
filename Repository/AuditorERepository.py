@@ -1,0 +1,38 @@
+#Clase de repositorio, tiene comunicacón directa con la base de datos
+from configurations import db
+from bson import ObjectId
+from Model.AuditorEModel import AuditorExternoModel
+import bcrypt
+
+class AuditorExternoRepository:
+
+    #Inicializa la instacia de la bd
+    def __init__(self):
+        self.collection = db["Auditor_externo"]
+
+     # Inserta un auditor externo en la bd
+    def crear_auditor_externo(self, auditor_model):
+        auditor_dict = auditor_model.dict()
+        nombre_usuario = auditor_dict["usuario"]
+        # Verificar si ya existe un auditor con el mismo nombre de usuario
+        if self.collection.find_one({"usuario": nombre_usuario}):
+            raise ValueError(f"Ya existe un auditor externo con el nombre de usuario '{nombre_usuario}'.")
+        # Hashear la contraseña antes de guardar
+        contraseña_plana = auditor_dict["contraseña"]
+        hashed = bcrypt.hashpw(contraseña_plana.encode('utf-8'), bcrypt.gensalt())
+        auditor_dict["contraseña"] = hashed.decode('utf-8')  # Guarda como string
+
+        result = self.collection.insert_one(auditor_dict)
+        return str(result.inserted_id)
+
+
+    #Trae los auditores externos de la bd
+    def listar_auditores_externos(self):
+        return [AuditorExternoModel(**doc) for doc in self.collection.find()]
+    
+    #Buscar Auditor Externo por usuario
+    def buscar_auditor_externo_por_usuario(self, usuario: str):
+        return self.collection.find_one({"usuario": usuario})
+
+
+

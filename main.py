@@ -1,19 +1,45 @@
-from fastapi import FastAPI
+#Flujo principal
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from dotenv import load_dotenv 
+from Controller.AuditorEController import router as auditor_e_router
+from Controller.AuditorIController import router as auditor_i_router
+from Controller.PlanAccionController import router as plan_accion_router
+from Controller.RespuestaController import router as respuesta_router
+from Controller.FormularioController import router as formulario_router
+from Controller.GeminiController import router as gemini_router
+import logging
 import os
-from Controller import AuditorE_Controller, AuditorI_Controller, PlanAccion_Controller, Formulario_Controller
 
+#Configuracion de logs
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
-load_dotenv() 
+#Cargar variables de entorno desde el archivo .env
+load_dotenv()
+print("API_KEY:", os.getenv("API_KEY"))
 
+#Inicializar la aplicación FastAPI
 app = FastAPI()
-app.include_router(Formulario_Controller.router, prefix="/api")
-app.include_router(AuditorI_Controller.router, prefix="/api")
-app.include_router(AuditorE_Controller.router, prefix="/api")
-app.include_router(PlanAccion_Controller.router, prefix="/api")
 
+#Incluir los routers en un solo lugar para mantener la estructura limpia
+api_router = APIRouter()
+
+# Incluir los controladores en la API
+api_router.include_router(formulario_router, prefix="/formulario", tags=["Formulario"])
+api_router.include_router(auditor_i_router, prefix="/auditor_interno", tags=["Auditor Interno"])
+api_router.include_router(auditor_e_router, prefix="/auditor_externo", tags=["Auditor Externo"])
+api_router.include_router(plan_accion_router, prefix="/plan_de_accion", tags=["Plan de Acción"])
+api_router.include_router(gemini_router, prefix="/gemini", tags=["Gemini"])
+api_router.include_router(respuesta_router, prefix="/respuesta", tags=["Respuesta"])
+
+# Incluir el router principal
+app.include_router(api_router)
+
+# Configurar CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,5 +48,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Ejecutar la aplicación
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
