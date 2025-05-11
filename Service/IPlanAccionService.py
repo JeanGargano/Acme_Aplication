@@ -1,7 +1,7 @@
 #Clase Abstracta para Plan de Accion
 from abc import ABC, abstractmethod
 from typing import List
-from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_plan
+from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_estado_comentario, EvidenciaRequest
 
 class IPlanAccionService(ABC):
 
@@ -16,9 +16,14 @@ class IPlanAccionService(ABC):
         pass
 
 
-    #Metodo para actulizar el plan de accion
+    #Metodo para actulizar el estado de un plan de accion y añadirle un comentario
     @abstractmethod
-    def actualizar_plan(self, data: Actualizar_plan) -> str:
+    def actualizar_estado_comentario(self, data: Actualizar_estado_comentario) -> str:
+        pass
+
+    #Metodo para añadir evidencias a un plan de acción
+    @abstractmethod
+    def añadir_evidencias(self, data: EvidenciaRequest) -> bool:
         pass
 
 

@@ -1,6 +1,6 @@
 #Endpoints para Plan de Accion
 from fastapi import APIRouter, Depends, HTTPException, Query
-from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_plan
+from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_estado_comentario, EvidenciaRequest
 from Service.PlanAccionServiceImp import PlanDeAccionServiceImp
 from typing import List
 
@@ -36,14 +36,14 @@ def listar_plan_por_auditor_interno(
     except Exception:
         raise HTTPException(status_code=500, detail="Error interno al traer los planes")
     
-#Actualizar estado
-@router.post("/actualizar_plan")
-def actualizar_plan(
-    Data: Actualizar_plan,
+#Actualizar Comentario y estado
+@router.post("/actualizar_comentario_estado")
+def actualizar_comentario_estado(
+    Data: Actualizar_estado_comentario,
     service: PlanDeAccionServiceImp = Depends()
 ):
     try:
-        actualizado = service.actualizar_plan(Data)
+        actualizado = service.actualizar_estado_comentario(Data)
         if not actualizado:
             raise HTTPException(status_code=404, detail="Plan de acción no encontrado")
         return {"message": "Plan actualizado correctamente"}
@@ -51,3 +51,13 @@ def actualizar_plan(
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
         raise HTTPException(status_code=500, detail="Error interno al actualizar el plan")
+
+#Añadir evidencias   
+@router.post("/añadir_evidencias")
+async def añadir_evidencias(
+    data: EvidenciaRequest,
+    service: PlanDeAccionServiceImp = Depends()):
+    actualizado = service.añadir_evidencias(data.plan_id, data.evidencias)
+    if not actualizado:
+        raise HTTPException(status_code=404, detail="No se pudo actualizar el plan de acción")
+    return {"mensaje": "Evidencias actualizadas correctamente"}
