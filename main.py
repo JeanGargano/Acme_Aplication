@@ -9,6 +9,10 @@ from Controller.PlanAccionController import router as plan_accion_router
 from Controller.RespuestaController import router as respuesta_router
 from Controller.FormularioController import router as formulario_router
 from Controller.GeminiController import router as gemini_router
+
+from Controller import AuditorEController
+
+
 import logging
 import os
 
@@ -35,6 +39,9 @@ api_router.include_router(auditor_e_router, prefix="/auditor_externo", tags=["Au
 api_router.include_router(plan_accion_router, prefix="/plan_de_accion", tags=["Plan de Acción"])
 api_router.include_router(gemini_router, prefix="/gemini", tags=["Gemini"])
 api_router.include_router(respuesta_router, prefix="/respuesta", tags=["Respuesta"])
+
+# Test controller
+app.include_router(AuditorEController.router)
 
 # Incluir el router principal
 app.include_router(api_router)

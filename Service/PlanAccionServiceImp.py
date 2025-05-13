@@ -6,6 +6,7 @@ from typing import List
 from fastapi import Depends
 import logging
 from bson import ObjectId
+from bson.errors import InvalidId
 
 #Modulo de python para gestionar logs
 logger = logging.getLogger(__name__)

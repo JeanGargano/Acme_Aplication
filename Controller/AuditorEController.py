@@ -19,8 +19,8 @@ def crear_auditor_externo(
         return {"mensaje": "Auditor Externo creado con éxito", "auditor": auditor_E}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
-    except Exception:
-        raise HTTPException(status_code=500, detail="Error al crear el auditor externo.")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al crear auditor externo: {str(e)}")
 
 # Listar todos los auditores externos
 @router.get("/listar_auditores_externos")
