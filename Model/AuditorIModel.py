@@ -8,7 +8,7 @@ from typing import Annotated
 ObjectIdStr = Annotated[str, Field(pattern="^[a-f\d]{24}$")]
 
 class AuditorInternoModel(BaseModel):
-    id: Optional[str] = Field(default= None, alias="_id")
+    id: Optional[str] = Field(default_factory=lambda: str(ObjectId()), alias="_id")
     nombre: str
     compañia: str
     usuario: str
