@@ -23,13 +23,12 @@ class PlanAccionRepository:
 
     #Trae un plan de la bd por su id
     def listar_planes_por_auditor_interno(self, auditorI_id: str):
-        auditorI_id = auditorI_id.strip()  # Asegura que no vengan espacios
-        # Proyección para excluir _id
-        data_cursor = self.collection.find(
-            {"auditor_interno": auditorI_id},
-            {"_id": 0}  # <--- Aquí excluimos el _id
-        )
-        data_list = list(data_cursor)
+        auditorI_id = auditorI_id.strip()
+        data_cursor = self.collection.find({"auditor_interno": auditorI_id})
+        data_list = []
+        for doc in data_cursor:
+            doc["_id"] = str(doc["_id"]) 
+            data_list.append(doc)
 
         if not data_list:
             raise ValueError(f"No se encontraron planes de acción para el auditor con ID: {auditorI_id}")
