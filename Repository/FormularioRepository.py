@@ -16,7 +16,7 @@ class FormularioRepository:
 
     #Trae los formularios creados en la base de datos
     def listar_formularios(self):
-        return [FormularioModel(**doc) for doc in self.collection.find()]
+        return [FormularioModel(**{**doc, "_id": str(doc["_id"])}) for doc in self.collection.find()]
 
     #Trae un formulario segun la norma
     def listar_formulario_por_norma(self, norma: str):
