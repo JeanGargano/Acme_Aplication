@@ -21,5 +21,9 @@ class FormularioRepository:
     #Trae un formulario segun la norma
     def listar_formulario_por_norma(self, norma: str):
         data = self.collection.find_one({"norma": norma})
-        return FormularioModel(**data) if data else None
+        if data:
+            data["_id"] = str(data["_id"])
+            return FormularioModel(**data)
+        return None
+
    

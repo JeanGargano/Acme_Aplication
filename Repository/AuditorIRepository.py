@@ -28,10 +28,10 @@ class AuditorInternoRepository:
 
     # Trae los auditores internos de la bd
     def listar_auditores_internos(self):
-        return [AuditorInternoModel(**doc) for doc in self.collection.find()]
+        return [AuditorInternoModel(**{**doc, "_id": str(doc["_id"])}) for doc in self.collection.find()]
 
     #Buscar Auditor interno por usuario
-    def buscar_auditor_interno_por_usuaroi(self, usuario: str):
+    def buscar_auditor_interno_por_usuario(self, usuario: str):
         return self.collection.find_one({"usuario": usuario})
 
 

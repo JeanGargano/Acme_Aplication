@@ -37,7 +37,7 @@ class AuditorInternoServiceImp(IAuditorInternoService):
 
     #Metodo para logear auditor interno
     def logear_auditor_interno(self, usuario: str, contraseña: str) -> dict | None:
-        auditor = self.repo.buscar_auditor_interno_por_usuaroi(usuario)
+        auditor = self.repo.buscar_auditor_interno_por_usuario(usuario)
         if auditor and verificar_password(contraseña, auditor["contraseña"]):
             auditor["_id"] = str(auditor["_id"])  # Convertimos el ObjectId
             return auditor
