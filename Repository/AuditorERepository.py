@@ -28,7 +28,7 @@ class AuditorExternoRepository:
 
     #Trae los auditores externos de la bd
     def listar_auditores_externos(self):
-        return [AuditorExternoModel(**doc) for doc in self.collection.find()]
+        return [AuditorExternoModel(**{**doc, "_id": str(doc["_id"])}) for doc in self.collection.find()]
     
     #Buscar Auditor Externo por usuario
     def buscar_auditor_externo_por_usuario(self, usuario: str):
