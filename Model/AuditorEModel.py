@@ -2,7 +2,7 @@
 from pydantic import BaseModel, Field
 from bson import ObjectId
 from typing import Optional
-from typing import Annotated
+from typing import Annotated, List
 
 
 class AuditorExternoModel(BaseModel):
@@ -10,7 +10,7 @@ class AuditorExternoModel(BaseModel):
     nombre: str
     usuario: str
     contraseña: str
-
+    planesAsignados: Optional[List[str]] = Field(default_factory=list)
     #Permite serializar los campos del modelo
     class Config:
         allow_population_by_field_name = True

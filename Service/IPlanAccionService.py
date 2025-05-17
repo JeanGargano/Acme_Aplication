@@ -25,5 +25,11 @@ class IPlanAccionService(ABC):
     @abstractmethod
     def añadir_evidencias(self, data: EvidenciaRequest) -> bool:
         pass
+    
+    #Metodo para enviar un plan a un aditor externo
+    def enviar_plan_a_auditorExterno(self, auditorI_id: str) -> bool:
+        pass
+    
 
+    
 

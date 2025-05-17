@@ -34,5 +34,15 @@ class AuditorExternoRepository:
     def buscar_auditor_externo_por_usuario(self, usuario: str):
         return self.collection.find_one({"usuario": usuario})
 
+    
+    def asignar_plan(self, auditorE_id: str, auditorI_id: str) -> bool:
+        result = self.collection.update_one(
+            {"_id": ObjectId(auditorE_id)},
+            {"$addToSet": {"planesAsignados": auditorI_id}}  # evita duplicados
+        )
+        return result.modified_count > 0
+
+
+
 
 

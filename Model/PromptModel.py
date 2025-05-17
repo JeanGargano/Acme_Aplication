@@ -8,3 +8,7 @@ class Item(BaseModel):
 
 class PromptModel(BaseModel):
     prompt: List[Item]
+
+
+class PromptDocumento(BaseModel):
+    prompt: str

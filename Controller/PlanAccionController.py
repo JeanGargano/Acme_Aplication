@@ -36,6 +36,19 @@ def listar_plan_por_auditor_interno(
     except Exception:
         raise HTTPException(status_code=500, detail="Error interno al traer los planes")
     
+# Listar planes pendientes por auditor interno
+@router.get("/listar_planes_pendientes_auditor_interno")
+def listar_planes_pendientes_auditor_interno(
+    auditorI_id: str = Query(...),
+    service: PlanDeAccionServiceImp = Depends()
+):
+    try:
+        return service.listar_planes_pendientes_por_auditor_interno(auditorI_id)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"Error al traer los planes pendientes: {str(e)}")
+    except Exception:
+        raise HTTPException(status_code=500, detail="Error interno al traer los planes pendientes") 
+    
 #Actualizar Comentario y estado
 @router.post("/actualizar_comentario_estado")
 def actualizar_comentario_estado(
@@ -61,3 +74,17 @@ async def añadir_evidencias(
     if not actualizado:
         raise HTTPException(status_code=404, detail="No se pudo actualizar el plan de acción")
     return {"mensaje": "Evidencias actualizadas correctamente"}
+
+#Enviar Plan de Accion al auditor enterno
+@router.post("/enviar_a_auditorExterno")
+async def enviar_plan_a_auditorExterno(
+    auditorI_id: str = Query(...),
+    service: PlanDeAccionServiceImp = Depends()
+):
+    planEnviado = service.enviar_plan_a_auditorExterno(auditorI_id)
+    if not planEnviado:
+        raise HTTPException(status_code=404, detail="No se pudo enviar el plan de acción al auditor Externo")
+    return{"mesagge": "Plan enviado exitosamente"}
+
+
+

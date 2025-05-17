@@ -1,12 +1,16 @@
 #Clase que implementa los metodos Abstractos de la interfaz, se comunica con el repositorio
 from Service.IPlanAccionService import IPlanAccionService
 from Repository.PlanAccionRepository import PlanAccionRepository
+from Repository.AuditorERepository import AuditorExternoRepository
 from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_estado_comentario, EvidenciaMeta
 from typing import List
 from fastapi import Depends
 import logging
 from bson import ObjectId
 from bson.errors import InvalidId
+import random
+from bson import ObjectId
+from fastapi import HTTPException
 
 #Modulo de python para gestionar logs
 logger = logging.getLogger(__name__)
@@ -14,8 +18,9 @@ logger = logging.getLogger(__name__)
 class PlanDeAccionServiceImp(IPlanAccionService):
 
     #Metodo constructor e inyeccion de dependencias
-    def __init__(self, repo: PlanAccionRepository = Depends()):
+    def __init__(self, repo: PlanAccionRepository = Depends(), auditor_repo: AuditorExternoRepository = Depends()):
         self.repo = repo
+        self.auditor_repo = auditor_repo
 
     #Metodo para crear plan de accion
     def guardar_plan(self, plan_de_accion: PlanDeAccionModel) -> PlanDeAccionModel:
@@ -66,3 +71,24 @@ class PlanDeAccionServiceImp(IPlanAccionService):
             raise ValueError("No se proporcionaron evidencias válidas.")
 
         return self.repo.añadir_evidencias(plan_id, updates)
+    
+
+    #Metodo para enviar plan a auditor externo
+    def enviar_plan_a_auditorExterno(self, auditorI_id: str) -> bool:
+        auditores = self.auditor_repo.listar_auditores_externos()
+        if not auditores:
+            raise ValueError("No hay auditores externos disponibles")
+        # Elegir uno aleatoriamente
+        auditor_aleatorio = random.choice(auditores)
+        auditorE_id = auditor_aleatorio.id
+        print(auditorE_id)
+        # Asignar el plan al auditor seleccionado
+        asignado = self.auditor_repo.asignar_plan(auditorE_id, auditorI_id)
+        print(asignado)
+        if not asignado:
+            raise ValueError("No se pudo asignar el plan al auditor externo")
+        return True
+
+
+
+
