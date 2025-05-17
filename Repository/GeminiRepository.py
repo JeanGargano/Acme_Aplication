@@ -1,4 +1,3 @@
-# Repository/GeminiRepository.py
 from Model.PromptModel import PromptModel
 import google.generativeai as genai
 import os
@@ -6,6 +5,7 @@ import logging
 import json
 import re
 
+#Modulo de python para gestionar logs
 logger = logging.getLogger(__name__)
 
 class GeminiRepository:
@@ -17,10 +17,11 @@ class GeminiRepository:
         genai.configure(api_key=self.api_key) 
         self.model = genai.GenerativeModel("gemini-1.5-flash")
 
+
     def generar_reporte(self, prompt: PromptModel):
         try:
             data = prompt.prompt
-            data_str = json.dumps([item for item in data], ensure_ascii=False, indent=2)
+            data_str = json.dumps([item.dict() for item in data], ensure_ascii=False, indent=2)
             request = (
                 "Necesito que me generes un dashboard en formato JSON puro (sin texto adicional). "
                 "Clasifica las respuestas como: 'Cumple' = Bueno (10), "
@@ -30,25 +31,31 @@ class GeminiRepository:
                 f"{data_str}"
             )
             response = self.model.generate_content(request)
+            # Extraer solo el bloque JSON usando regex, en caso de que Gemini devuelva texto adicional
             match = re.search(r'\{[\s\S]*\}', response.text)
             if not match:
                 raise Exception(f"No se encontró un bloque JSON en la respuesta: {response.text}")
             try:
-                return json.loads(match.group())
+                dashboard = json.loads(match.group())
             except json.JSONDecodeError as e:
                 raise Exception(f"Error al decodificar JSON: {str(e)}\nRespuesta: {response.text}")
+            return dashboard  # FastAPI lo convierte automáticamente en JSON
         except Exception as e:
             raise Exception(f"Error al consultar la API de Gemini: {str(e)}")
-
-    async def generar_embedding(self, texto: str):
+        
+    def generate_form(self, prompt: str, context: str) :
         try:
-            embedding_model = genai.GenerativeModel(model_name="models/embedding-001")
-            response = embedding_model.embed_content(content=texto, task_type="retrieval_document")
-            return response["embedding"]
+            full_prompt = f"{context}\n\n{prompt}"
+            response = self.model.generate_content(full_prompt)
+            match = re.search(r'\{[\s\S]*\}', response.text)
+            if not match:
+                raise ValueError("No se encontró JSON válido en la respuesta del modelo.")
+            try:
+                formulario = json.loads(match.group())
+            except json.JSONDecodeError as e:
+                raise Exception(f"Error al decodificar JSON: {str(e)}\nRespuesta: {response.text}")
+            return formulario 
+        
         except Exception as e:
-            logger.error(f"Error al generar el embedding: {e}")
-            raise Exception(f"No se pudo generar el embedding con Gemini: {str(e)}")
-
-    async def generate_embeddings_parallel(self, textos: list[str]):
-        # Podrías usar asyncio.gather para paralelismo real si deseas
-        return [await self.generar_embedding(texto) for texto in textos]
+            logger.error(f"Error generating form: {e}")
+            raise

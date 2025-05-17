@@ -10,9 +10,7 @@ from Controller.RespuestaController import router as respuesta_router
 from Controller.FormularioController import router as formulario_router
 from Controller.GeminiController import router as gemini_router
 from Controller.AdminController import router as admin_router
-
-from Controller import AuditorEController
-
+from Controller.RagServiceController import router as rag_router
 
 import logging
 import os
@@ -30,7 +28,6 @@ print("API_KEY:", os.getenv("API_KEY"))
 #Inicializar la aplicación FastAPI
 app = FastAPI()
 
-#Incluir los routers en un solo lugar para mantener la estructura limpia
 api_router = APIRouter()
 
 # Incluir los controladores en la API
@@ -41,10 +38,7 @@ api_router.include_router(plan_accion_router, prefix="/plan_de_accion", tags=["P
 api_router.include_router(gemini_router, prefix="/gemini", tags=["Gemini"])
 api_router.include_router(respuesta_router, prefix="/respuesta", tags=["Respuesta"])
 api_router.include_router(admin_router, prefix="/admin", tags=["Administrador"])
-
-# Test controller
-app.include_router(AuditorEController.router)
-
+api_router.include_router(rag_router, prefix="/rag", tags=["Rag"])
 # Incluir el router principal
 app.include_router(api_router)
     

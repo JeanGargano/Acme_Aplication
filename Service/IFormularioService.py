@@ -12,7 +12,7 @@ class IFormularioService(ABC):
 
     #Metodo abtracto para listar formularios
     @abstractmethod
-    def listar_formularios(self) ->List[FormularioModel]:
+    def listar_formularios(self) ->List[str]:
         pass
 
     #Metodo abstracto para listar formulario por norma

@@ -75,19 +75,32 @@ class PlanDeAccionServiceImp(IPlanAccionService):
 
     #Metodo para enviar plan a auditor externo
     def enviar_plan_a_auditorExterno(self, auditorI_id: str) -> bool:
+        if not auditorI_id:
+            logger.warning("Intento de enviar plan de accion fallido")
+            raise ValueError("El ID del auditor interno no puede enviarse vacio")
         auditores = self.auditor_repo.listar_auditores_externos()
         if not auditores:
             raise ValueError("No hay auditores externos disponibles")
         # Elegir uno aleatoriamente
         auditor_aleatorio = random.choice(auditores)
         auditorE_id = auditor_aleatorio.id
-        print(auditorE_id)
         # Asignar el plan al auditor seleccionado
         asignado = self.auditor_repo.asignar_plan(auditorE_id, auditorI_id)
         print(asignado)
         if not asignado:
             raise ValueError("No se pudo asignar el plan al auditor externo")
         return True
+    
+    # Método para listar planes pendientes por auditor interno
+    def listar_planes_pendientes_por_auditor_interno(self, auditorI_id: str) -> List[str]:
+        if not auditorI_id:
+            logger.warning("Intento de listar planes pendientes con ID vacío.")
+            raise ValueError("El ID del auditor no puede estar vacío.")
+        
+        planes_pendientes = self.repo.listar_planes_pendientes_por_auditor_interno(auditorI_id)
+        logger.info(f"Planes de acción pendientes listados con éxito para el auditor {auditorI_id}")
+        return planes_pendientes
+
 
 
 

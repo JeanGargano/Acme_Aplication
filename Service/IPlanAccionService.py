@@ -29,6 +29,9 @@ class IPlanAccionService(ABC):
     #Metodo para enviar un plan a un aditor externo
     def enviar_plan_a_auditorExterno(self, auditorI_id: str) -> bool:
         pass
+
+    def listar_planes_pendientes_por_auditor_interno(self, auditorI_id: str) -> List[str]:
+        pass
     
 
     

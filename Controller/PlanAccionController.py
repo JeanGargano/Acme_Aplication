@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_estado_comentario, EvidenciaRequest
 from Service.PlanAccionServiceImp import PlanDeAccionServiceImp
 from typing import List
-
+import logging
 router = APIRouter()
 
 # Crear plan de acción
@@ -35,7 +35,8 @@ def listar_plan_por_auditor_interno(
         raise HTTPException(status_code=400, detail=f"Error al traer los planes de acción: {str(e)}")
     except Exception:
         raise HTTPException(status_code=500, detail="Error interno al traer los planes")
-    
+
+logger = logging.getLogger(__name__)  
 # Listar planes pendientes por auditor interno
 @router.get("/listar_planes_pendientes_auditor_interno")
 def listar_planes_pendientes_auditor_interno(
@@ -43,11 +44,16 @@ def listar_planes_pendientes_auditor_interno(
     service: PlanDeAccionServiceImp = Depends()
 ):
     try:
-        return service.listar_planes_pendientes_por_auditor_interno(auditorI_id)
+        logger.info(f"Buscando planes para auditorI_id: {auditorI_id}")
+        result = service.listar_planes_pendientes_por_auditor_interno(auditorI_id)
+        logger.info(f"Resultado obtenido: {result}")
+        return result
     except ValueError as e:
+        logger.error(f"Error de valor: {str(e)}")
         raise HTTPException(status_code=400, detail=f"Error al traer los planes pendientes: {str(e)}")
-    except Exception:
-        raise HTTPException(status_code=500, detail="Error interno al traer los planes pendientes") 
+    except Exception as e:
+        logger.error(f"Error inesperado: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Error interno al traer los planes pendientes")
     
 #Actualizar Comentario y estado
 @router.post("/actualizar_comentario_estado")

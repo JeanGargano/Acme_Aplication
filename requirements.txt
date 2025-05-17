@@ -51,4 +51,5 @@ pytest==8.2.0
 python-multipart==0.0.6
 PyPDF2==2.12.1
 python-docx==0.8.11
-chromadb==0.5.5
+chromadb==0.4.24
+pymupdf==1.23.25

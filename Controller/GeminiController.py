@@ -1,7 +1,7 @@
 #Endpoints para Gemini
 from fastapi import APIRouter, Depends, HTTPException
 from Service.GeminiServiceImp import GeminiServiceImp
-from Model.PromptModel import PromptModel, PromptDocumento
+from Model.PromptModel import PromptModel
 
 router = APIRouter()
 

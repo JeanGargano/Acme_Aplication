@@ -1,4 +1,4 @@
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel
 from typing import List
 
 class Item(BaseModel):
@@ -9,6 +9,3 @@ class Item(BaseModel):
 class PromptModel(BaseModel):
     prompt: List[Item]
 
-
-class PromptDocumento(BaseModel):
-    prompt: str
