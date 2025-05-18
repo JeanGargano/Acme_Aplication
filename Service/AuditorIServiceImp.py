@@ -1,7 +1,7 @@
 #Clase que implementa los metodos Abstractos de la interfaz, se comunica con el repositorio
 from Service.IAuditorIService import IAuditorInternoService
 from Repository.AuditorIRepository import AuditorInternoRepository
-from Model.AuditorIModel import AuditorInternoModel
+from Model.AuditorIModel import AuditorInternoModel, AuditorInternoCreate
 from typing import List, Optional
 from bson import ObjectId
 from fastapi import Depends
@@ -22,7 +22,7 @@ class AuditorInternoServiceImp(IAuditorInternoService):
         self.repo = repo
 
     #Metodo para crear un auditor interno
-    def crear_auditor_interno(self, auditor_interno: AuditorInternoModel) -> AuditorInternoModel:
+    def crear_auditor_interno(self, auditor_interno: AuditorInternoCreate) -> AuditorInternoCreate:
         if not auditor_interno or not auditor_interno.nombre:
             logger.warning("Intento de crear un auditor interno inválido.")
             raise ValueError("Datos de auditor interno incompletos o inválidos.")

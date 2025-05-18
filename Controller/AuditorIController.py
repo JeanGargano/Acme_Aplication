@@ -1,6 +1,6 @@
 #Endpoints para Auditor Interno
 from fastapi import APIRouter, Depends, HTTPException, Query
-from Model.AuditorIModel import AuditorInternoModel
+from Model.AuditorIModel import AuditorInternoCreate
 from Model.LoginRequest import LoginRequest
 from Model.AuditorResponse import AuditorResponse
 from Service.AuditorIServiceImp import AuditorInternoServiceImp
@@ -11,7 +11,7 @@ router = APIRouter()
 #Controlador para crear auditor interno
 @router.post("/crear_auditor_interno")
 def crear_auditor_interno(
-    auditor_interno: AuditorInternoModel,
+    auditor_interno: AuditorInternoCreate,
     service: AuditorInternoServiceImp = Depends()
 ):
     try:

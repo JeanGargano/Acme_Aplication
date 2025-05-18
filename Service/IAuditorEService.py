@@ -1,13 +1,13 @@
 #Clase Abstracta para Auditor Externo
 from abc import ABC, abstractmethod
-from Model.AuditorEModel import AuditorExternoModel
+from Model.AuditorEModel import AuditorExternoModel, AuditorExternoCreate
 from typing import List, Optional
 
 class IAuditorExternoService(ABC):
 
     #Metodo Abstracto para crear auditor externo
     @abstractmethod
-    def crear_auditor_externo(self, auditor_externo: AuditorExternoModel) -> str:
+    def crear_auditor_externo(self, auditor_externo: AuditorExternoCreate) -> str:
         pass
 
     #Metodo Abstracto para listar auditores externos

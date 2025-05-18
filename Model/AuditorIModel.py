@@ -20,6 +20,12 @@ class AuditorInternoModel(BaseModel):
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
 
+class AuditorInternoCreate(BaseModel):
+    nombre: str
+    compañia: str
+    usuario: str
+    contraseña: str
+
 #Clase para manejar respuestas al logear
 
 

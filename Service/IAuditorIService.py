@@ -1,13 +1,13 @@
 #Clase abstracta para Auditor Interno
 from abc import ABC, abstractmethod
-from Model.AuditorIModel import AuditorInternoModel
+from Model.AuditorIModel import AuditorInternoModel, AuditorInternoCreate
 from typing import List, Optional
 
 class IAuditorInternoService(ABC):
 
     #Metodo abstracto para crear auditor interno
     @abstractmethod
-    def crear_auditor_interno(self, auditor_interno: AuditorInternoModel) -> str:
+    def crear_auditor_interno(self, auditor_interno: AuditorInternoCreate) -> str:
         pass
 
     #Metodo abstracto para listar auditores internos

@@ -1,6 +1,6 @@
 #Endpoints para Auditor Externo
 from fastapi import APIRouter, Depends, HTTPException, Query
-from Model.AuditorEModel import AuditorExternoModel
+from Model.AuditorEModel import AuditorExternoCreate
 from Model.AuditorResponse import AuditorResponse
 from Service.AuditorEServiceImp import AuditorExternoServiceImp
 from typing import List, Optional
@@ -11,7 +11,7 @@ router = APIRouter()
 # Crear auditor externo
 @router.post("/crear_auditor_externo")
 def crear_auditor_externo(
-    auditor_externo: AuditorExternoModel,
+    auditor_externo: AuditorExternoCreate,
     service: AuditorExternoServiceImp = Depends()
 ):
     try:

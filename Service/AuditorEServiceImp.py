@@ -1,7 +1,7 @@
 #Clase que implementa los metodos Abstractos de la interfaz, se comunica con el repositorio
 from Service.IAuditorEService import IAuditorExternoService
 from Repository.AuditorERepository import AuditorExternoRepository
-from Model.AuditorEModel import AuditorExternoModel
+from Model.AuditorEModel import AuditorExternoModel, AuditorExternoCreate
 from typing import List, Optional
 from bson import ObjectId
 from fastapi import Depends
@@ -21,7 +21,7 @@ class AuditorExternoServiceImp(IAuditorExternoService):
         self.repo = repo
 
     #Metodo para crear auditor externo
-    def crear_auditor_externo(self, auditor_externo: AuditorExternoModel) ->  AuditorExternoModel:
+    def crear_auditor_externo(self, auditor_externo: AuditorExternoCreate) ->  AuditorExternoCreate:
         if not auditor_externo or not auditor_externo.nombre:
             logger.warning("Intento de crear un auditor externo inválido.")
             raise ValueError("Datos de auditor externo incompletos o inválidos.")

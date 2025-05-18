@@ -16,3 +16,9 @@ class AuditorExternoModel(BaseModel):
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
+
+class AuditorExternoCreate(BaseModel):
+    nombre: str
+    usuario: str
+    contraseña: str
+    planesAsignados: List[str] = Field(default_factory=list)
