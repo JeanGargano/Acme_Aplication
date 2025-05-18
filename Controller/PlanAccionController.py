@@ -1,6 +1,6 @@
 #Endpoints para Plan de Accion
 from fastapi import APIRouter, Depends, HTTPException, Query
-from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_estado_comentario, EvidenciaRequest
+from Model.PlanAccionModel import PlanDeAccionCreate, Actualizar_estado_comentario, EvidenciaRequest
 from Service.PlanAccionServiceImp import PlanDeAccionServiceImp
 from typing import List
 import logging
@@ -9,7 +9,7 @@ router = APIRouter()
 # Crear plan de acción
 @router.post("/guardar_plan")
 def guardar_plan(
-    plan: PlanDeAccionModel,
+    plan: PlanDeAccionCreate,
     service: PlanDeAccionServiceImp = Depends()
 ):
     try:
@@ -36,7 +36,21 @@ def listar_plan_por_auditor_interno(
     except Exception:
         raise HTTPException(status_code=500, detail="Error interno al traer los planes")
 
-logger = logging.getLogger(__name__)  
+logger = logging.getLogger(__name__)
+
+#Listar plan por id
+@router.get("/listar_plan_por_id")
+def listar_plan_por_id(
+    plan_id: str = Query(...),
+    service: PlanDeAccionServiceImp = Depends()
+):
+    try:
+        return service.listar_plan_por_id(plan_id)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception:
+        raise HTTPException(status_code=500, detail="Error interno al buscar el plan por ID")
+
 # Listar planes pendientes por auditor interno
 @router.get("/listar_planes_pendientes_auditor_interno")
 def listar_planes_pendientes_auditor_interno(
@@ -84,10 +98,10 @@ async def añadir_evidencias(
 #Enviar Plan de Accion al auditor enterno
 @router.post("/enviar_a_auditorExterno")
 async def enviar_plan_a_auditorExterno(
-    auditorI_id: str = Query(...),
+    plan_id: str = Query(...),
     service: PlanDeAccionServiceImp = Depends()
 ):
-    planEnviado = service.enviar_plan_a_auditorExterno(auditorI_id)
+    planEnviado = service.enviar_plan_a_auditorExterno(plan_id)
     if not planEnviado:
         raise HTTPException(status_code=404, detail="No se pudo enviar el plan de acción al auditor Externo")
     return{"mesagge": "Plan enviado exitosamente"}

@@ -2,7 +2,7 @@
 from Service.IPlanAccionService import IPlanAccionService
 from Repository.PlanAccionRepository import PlanAccionRepository
 from Repository.AuditorERepository import AuditorExternoRepository
-from Model.PlanAccionModel import PlanDeAccionModel, Actualizar_estado_comentario, EvidenciaMeta
+from Model.PlanAccionModel import PlanDeAccionModel, PlanDeAccionCreate, Actualizar_estado_comentario, EvidenciaMeta
 from typing import List
 from fastapi import Depends
 import logging
@@ -23,7 +23,7 @@ class PlanDeAccionServiceImp(IPlanAccionService):
         self.auditor_repo = auditor_repo
 
     #Metodo para crear plan de accion
-    def guardar_plan(self, plan_de_accion: PlanDeAccionModel) -> PlanDeAccionModel:
+    def guardar_plan(self, plan_de_accion: PlanDeAccionCreate) -> PlanDeAccionCreate:
         if not plan_de_accion:
             logger.warning("Intento de crear un plan de acción fallido.")
             raise ValueError("Datos del plan de acción incompletos o inválidos.")
@@ -40,6 +40,19 @@ class PlanDeAccionServiceImp(IPlanAccionService):
         planes = self.repo.listar_planes_por_auditor_interno(auditorI_id)
         logger.info(f"Planes de acción listados con exito {planes}")
         return planes
+    
+    #Método para listar plan de accion por id
+    def listar_plan_por_id(self, plan_id: str) -> PlanDeAccionModel:
+        if not ObjectId.is_valid(plan_id):
+            raise ValueError("ID de plan inválido.")
+
+        plan = self.repo.obtener_plan_por_id(plan_id)
+
+        if not plan:
+            raise ValueError("No se encontró ningún plan con el ID proporcionado.")
+
+        plan["_id"] = str(plan["_id"])
+        return PlanDeAccionModel(**plan)
     
     #Metodo para actulizar el estado de un plan de accion y añadirle un comentario
     def actualizar_estado_comentario(self, data: Actualizar_estado_comentario) -> bool:
@@ -74,10 +87,10 @@ class PlanDeAccionServiceImp(IPlanAccionService):
     
 
     #Metodo para enviar plan a auditor externo
-    def enviar_plan_a_auditorExterno(self, auditorI_id: str) -> bool:
-        if not auditorI_id:
+    def enviar_plan_a_auditorExterno(self, plan_id: str) -> bool:
+        if not plan_id:
             logger.warning("Intento de enviar plan de accion fallido")
-            raise ValueError("El ID del auditor interno no puede enviarse vacio")
+            raise ValueError("El ID del plan no puede enviarse vacio")
         auditores = self.auditor_repo.listar_auditores_externos()
         if not auditores:
             raise ValueError("No hay auditores externos disponibles")
@@ -85,7 +98,7 @@ class PlanDeAccionServiceImp(IPlanAccionService):
         auditor_aleatorio = random.choice(auditores)
         auditorE_id = auditor_aleatorio.id
         # Asignar el plan al auditor seleccionado
-        asignado = self.auditor_repo.asignar_plan(auditorE_id, auditorI_id)
+        asignado = self.auditor_repo.asignar_plan(auditorE_id, plan_id)
         print(asignado)
         if not asignado:
             raise ValueError("No se pudo asignar el plan al auditor externo")

@@ -1,7 +1,7 @@
 #Clase de repositorio, tiene comunicacón directa con la base de datos
 from configurations import db
 from bson import ObjectId
-from Model.PlanAccionModel import PlanDeAccionModel, EvidenciaMeta
+from Model.PlanAccionModel import PlanDeAccionCreate, EvidenciaMeta
 from bson.errors import InvalidId
 from typing import List
 import logging
@@ -18,7 +18,7 @@ class PlanAccionRepository:
         return self.collection.find_one({"_id": ObjectId(plan_id)})
 
     # Inserta un plan en la base de datos
-    def guardar_plan(self, plan_de_accion:PlanDeAccionModel):
+    def guardar_plan(self, plan_de_accion:PlanDeAccionCreate):
         result = self.collection.insert_one(plan_de_accion.dict(by_alias=True))
         return str(result)
 
@@ -83,10 +83,10 @@ class PlanAccionRepository:
         )
         return result.modified_count > 0
     
-    def asignar_plan(self, auditorE_id: str, auditorI_id: str) -> bool:
+    def asignar_plan(self, auditorE_id: str, plan_id: str) -> bool:
         result = self.collection.update_one(
             {"_id": ObjectId(auditorE_id)},
-            {"$addToSet": {"planesAsignados": auditorI_id}} 
+            {"$addToSet": {"planesAsignados": plan_id}} 
         )
         return result.modified_count > 0
 
