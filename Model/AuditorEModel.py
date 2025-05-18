@@ -6,6 +6,7 @@ from typing import Annotated, List
 
 
 class AuditorExternoModel(BaseModel):
+    id: Optional[str] = Field(alias="_id")
     nombre: str
     usuario: str
     contraseña: str

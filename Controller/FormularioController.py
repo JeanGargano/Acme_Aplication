@@ -34,13 +34,13 @@ def listar_formularios(service: FormularioServiceImp = Depends()):
         raise HTTPException(status_code=500, detail="Error interno del servidor")
 
 # Controlador para listar formulario por norma
-@router.get("/listar_por_norma")
-def listar_formulario_por_norma(
-    norma: str = Query(...),
+@router.get("/listar_por_nombre")
+def listar_formulario_por_nombre(
+    nombre: str = Query(...),
     service: FormularioServiceImp = Depends()
 ):  
     try:
-        return service.listar_formulario_por_norma(norma)
+        return service.listar_formulario_por_nombre(nombre)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:

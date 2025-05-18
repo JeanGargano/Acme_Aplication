@@ -38,11 +38,11 @@ class FormularioServiceImp(IFormularioService):
             logger.info("No se han podido listar formularios")
 
     #Metodo para listar formulario por norma
-    def listar_formulario_por_norma(self, norma: str) -> str:
-        if not norma:
+    def listar_formulario_por_nombre(self, nombre: str) -> str:
+        if not nombre:
             logger.warning("No esta llegando la norma en el json")
             raise ValueError("La norma es necesaria para la ejecucion de este metodo")
-        form = self.repo.listar_formulario_por_norma(norma)
+        form = self.repo.listar_formulario_por_nombre(nombre)
         if form:
             logger.info(f"Formulario encontrado con norma: {form}")
             return form

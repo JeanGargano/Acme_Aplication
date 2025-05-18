@@ -17,7 +17,7 @@ class IFormularioService(ABC):
 
     #Metodo abstracto para listar formulario por norma
     @abstractmethod
-    def listar_formulario_por_norma(self, norma:str) -> FormularioModel:
+    def listar_formulario_por_nombre(self, nombre:str) -> FormularioModel:
         pass
 
 
