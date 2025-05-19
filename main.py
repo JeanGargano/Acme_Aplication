@@ -23,7 +23,6 @@ logging.basicConfig(
 
 #Cargar variables de entorno desde el archivo .env
 load_dotenv()
-print("API_KEY:", os.getenv("API_KEY"))
 
 #Inicializar la aplicación FastAPI
 app = FastAPI()

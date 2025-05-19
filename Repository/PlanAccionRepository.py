@@ -32,7 +32,7 @@ class PlanAccionRepository:
             data_list.append(doc)
 
         if not data_list:
-            raise ValueError(f"No se encontraron planes de acción para el auditor con ID: {auditorI_id}")
+            logger.info(f"No se encontraron planes de acción para el auditor con ID: {auditorI_id}")
         return data_list
 
     # Trae los planes de la BD por su auditor interno y cuyo estado sea 'pendiente'
