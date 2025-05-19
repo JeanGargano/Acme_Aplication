@@ -174,7 +174,8 @@ usuario.  Adjunte captura de pantalla que evidencie el proceso.
  
  
  
-
+ 
+ 
  
 
 2. Modifique el archivo carga.py de la siguiente forma 
