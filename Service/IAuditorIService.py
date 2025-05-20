@@ -19,3 +19,8 @@ class IAuditorInternoService(ABC):
     @abstractmethod
     def logear_auditor_interno(self, usuario: str, contraseña: str) -> Optional[AuditorInternoModel]:
         pass
+
+    @abstractmethod
+    def eliminar_auditor_interno(self, id: str) -> bool:
+       pass
+    

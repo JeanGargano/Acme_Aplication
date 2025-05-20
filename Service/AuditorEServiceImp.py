@@ -44,6 +44,19 @@ class AuditorExternoServiceImp(IAuditorExternoService):
         return None
 
 
+     # Método para eliminar un Auditor externo
+    def eliminar_auditor_externo(self, id: str) -> bool:
+        if not id:
+            logger.warning("ID no proporcionado para eliminar el auditor externo")
+            raise ValueError("El ID es obligatorio")
+        eliminado = self.repo.eliminar_auditor_externo(id)
+        if eliminado:
+            logger.info(f"Auditor externo con ID {id} eliminado exitosamente")
+            return True
+        else:
+            logger.info(f"No se encontró el auditor externo con ID {id}")
+            raise Exception("No se encontró el Auditor externo para eliminar")
+
 
 
 

@@ -41,3 +41,20 @@ def logear_auditor_interno(
         raise HTTPException(status_code=401, detail="Credenciales inválidas")
     return auditor
 
+#Controaldor para eliminar Auditor externo
+@router.delete("/eliminar_auditor_interno")
+def eliminar_auditor_interno(
+    id: str = Query(...),
+    service: AuditorInternoServiceImp = Depends()
+):
+    try:
+        eliminado = service.eliminar_auditor_interno(id)
+        if eliminado:
+            return {"mensaje": f"Audito externo con ID {id} eliminado exitosamente"}
+        else:
+            raise HTTPException(status_code=404, detail="Auditor externo no encontrado")
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error al eliminar el Auditor externo")
+

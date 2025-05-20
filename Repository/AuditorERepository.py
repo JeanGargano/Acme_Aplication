@@ -48,6 +48,10 @@ class AuditorExternoRepository:
             {"$addToSet": {"planesAsignados": auditorI_id}}  # evita duplicados
         )
         return result.modified_count > 0
+    
+    def eliminar_auditor_externo(self, id: str) -> bool:
+        result = self.collection.delete_one({"_id": ObjectId(id)})
+        return result.deleted_count > 0
 
 
 

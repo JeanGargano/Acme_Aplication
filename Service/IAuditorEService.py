@@ -19,5 +19,9 @@ class IAuditorExternoService(ABC):
     @abstractmethod
     def logear_auditor_externo(self, usuario: str, contraseña: str) -> Optional[AuditorExternoModel]:
         pass
+
+    @abstractmethod
+    def eliminar_auditor_externo(self, id: str) -> bool:
+       pass
     
 
