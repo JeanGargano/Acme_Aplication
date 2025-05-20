@@ -12,6 +12,7 @@ from bson import ObjectId
 # Modulo de python para gestionar logs
 logger = logging.getLogger(__name__)
 
+<<<<<<< HEAD
 # Metodo para verificar contraseñas
 def verificar_password(plain_password: str, hashed_password: str) -> bool:
     return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
@@ -34,6 +35,19 @@ class AuditorInternoServiceImp(IAuditorInternoService):
     #Metodo para listar auditores externos
     def listar_auditores_internos(self) -> List[AuditorInternoModel]:
         return self.repo.listar_auditores_internos()
+=======
+    def __init__(self):
+        self.repo = AuditorInternoRepository()
+    
+    def crear_auditor_interno(self, auditor_interno: AuditorInterno) -> str:
+        return self.repo.crear_auditor_interno(auditor_interno)
+
+    def listar_auditores_internos(self) -> List[AuditorInterno]:
+        return self.repo.listar_auditores_internos()
+    
+    def listar_auditor_interno_por_id(self, auditor_id) -> Optional[AuditorInterno]:
+        return self.repo.listar_auditores_internos_por_id(auditor_id)
+>>>>>>> 73c5c29f08a5b02e9cd60fca30469b961e822661
 
     #Metodo para logear auditor interno
     def logear_auditor_interno(self, usuario: str, contraseña: str) -> dict | None:
