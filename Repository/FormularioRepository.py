@@ -25,5 +25,10 @@ class FormularioRepository:
             data["_id"] = str(data["_id"])
             return FormularioModel(**data)
         return None
+    
+    #Elimina un formulario de la base de datos por su id
+    def eliminar_formulario_por_id(self, id: str) -> bool:
+        result = self.collection.delete_one({"_id": id})
+        return result.deleted_count > 0
 
    

@@ -15,7 +15,7 @@ def crear_formulario(
     try:
         form = service.crear_formulario(formulario)
         if form:
-            return "Formulario guardado exitosamente"
+            return {f"fomulario creado exitosamente"}
         else:
             raise HTTPException(status_code=500, detail="Error en el servicio")
     except ValueError as e:
@@ -45,4 +45,22 @@ def listar_formulario_por_nombre(
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail="Error interno del servidor")
+    
+
+# Controlador para eliminar un formulario por ID
+@router.delete("/eliminar_formulario")
+def eliminar_formulario(
+    id: str = Query(...),
+    service: FormularioServiceImp = Depends()):
+    try:
+        eliminado = service.eliminar_formulario_por_id(id)
+        if eliminado:
+            return {"mensaje": f"Formulario con ID {id} eliminado exitosamente"}
+        else:
+            raise HTTPException(status_code=404, detail="Formulario no encontrado")
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Error al eliminar el formulario")
+
 

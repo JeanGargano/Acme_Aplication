@@ -93,7 +93,7 @@ class PlanDeAccionServiceImp(IPlanAccionService):
             raise ValueError("El ID del plan no puede enviarse vacio")
         auditores = self.auditor_repo.listar_auditores_externos()
         if not auditores:
-            raise ValueError("No hay auditores externos disponibles")
+            logger.info("No hay auditores externos disponibles")
         # Elegir uno aleatoriamente
         auditor_aleatorio = random.choice(auditores)
         auditorE_id = auditor_aleatorio.id

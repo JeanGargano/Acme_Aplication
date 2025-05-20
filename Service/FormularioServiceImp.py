@@ -49,5 +49,19 @@ class FormularioServiceImp(IFormularioService):
         else:
             logger.info("Formulario no encontrado")
             raise Exception("Error al buscar el formulario")
+        
+    # Método para eliminar un formulario por ID
+    def eliminar_formulario_por_id(self, id: str) -> bool:
+        if not id:
+            logger.warning("ID no proporcionado para eliminar el formulario")
+            raise ValueError("El ID es obligatorio")
+        eliminado = self.repo.eliminar_formulario_por_id(id)
+        if eliminado:
+            logger.info(f"Formulario con ID {id} eliminado exitosamente")
+            return True
+        else:
+            logger.info(f"No se encontró formulario con ID {id}")
+            raise Exception("No se encontró el formulario para eliminar")
+
 
             

@@ -20,5 +20,8 @@ class IFormularioService(ABC):
     def listar_formulario_por_nombre(self, nombre:str) -> FormularioModel:
         pass
 
+    @abstractmethod
+    def eliminar_formulario_por_id(self, id: str) -> bool:
+       pass
 
 
