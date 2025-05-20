@@ -40,7 +40,7 @@ class RAGService:
                         propuestas con el enfoque de poder ser respondidas con cumple, cumple parcialmente o no cumple. Pero no debes agregar algun campo más,
                         solo debes darme las preguntas segun el siguiente formato, y el titulo extraelo del contexto, no le pongas "ejemplo de ...", ni nada parecido, el nombre 
                         de la norma o el lineamiento se saca del contexto y la descripcion tambien, intenta ser conciso y breve con la descripción.
-                        Limita las preguntas a un máximo de 10. Que no se repitan las preguntas e intenta cubrir todos Slos aspectos o secciones de la norma o lineamiento.
+                        Limita las preguntas a un máximo de 10. Que no se repitan las preguntas e intenta cubrir todos Solo aspectos o secciones de la norma o lineamiento.
                         Debe seguir el siguiente formato:
                         {{
                         "nombre": "Nombre de la norma o lineamiento",
