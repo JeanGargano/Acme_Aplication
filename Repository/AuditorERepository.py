@@ -49,8 +49,8 @@ class AuditorExternoRepository:
         )
         return result.modified_count > 0
     
-    def eliminar_auditor_externo(self, id: str) -> bool:
-        result = self.collection.delete_one({"_id": ObjectId(id)})
+    def eliminar_auditor_externo(self, usuario: str) -> bool:
+        result = self.collection.delete_one({"usuario": (usuario)})
         return result.deleted_count > 0
 
 

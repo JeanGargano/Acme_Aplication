@@ -44,15 +44,15 @@ class AuditorInternoServiceImp(IAuditorInternoService):
         return None
     
      # Método para eliminar un Auditor interno
-    def eliminar_auditor_interno(self, id: str) -> bool:
+    def eliminar_auditor_interno(self, usuario: str) -> bool:
         if not id:
-            logger.warning("ID no proporcionado para eliminar el auditor externo")
-            raise ValueError("El ID es obligatorio")
-        eliminado = self.repo.eliminar_auditor_interno(id)
+            logger.warning("Usuario no proporcionado para eliminar el auditor interno")
+            raise ValueError("El usuario es obligatorio")
+        eliminado = self.repo.eliminar_auditor_interno(usuario)
         if eliminado:
-            logger.info(f"Auditor externo con ID {id} eliminado exitosamente")
+            logger.info(f"Auditor interno con usuario {usuario} eliminado exitosamente")
             return True
         else:
-            logger.info(f"No se encontró el auditor externo con ID {id}")
-            raise Exception("No se encontró el Auditor externo para eliminar")
+            logger.info(f"No se encontró el auditor interno con ID {usuario}")
+            raise Exception("No se encontró el Auditor interno para eliminar")
 

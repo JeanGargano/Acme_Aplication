@@ -44,13 +44,13 @@ def logear_auditor_externo(
 #Controaldor para eliminar Auditor externo
 @router.delete("/eliminar_auditor_externo")
 def eliminar_auditor_externo(
-    id: str = Query(...),
+    usuario: str = Query(...),
     service: AuditorExternoServiceImp = Depends()
 ):
     try:
-        eliminado = service.eliminar_auditor_externo(id)
+        eliminado = service.eliminar_auditor_externo(usuario)
         if eliminado:
-            return {"mensaje": f"Audito externo con ID {id} eliminado exitosamente"}
+            return {"mensaje": f"Audito externo con usuario {usuario} eliminado exitosamente"}
         else:
             raise HTTPException(status_code=404, detail="Auditor externo no encontrado")
     except ValueError as e:

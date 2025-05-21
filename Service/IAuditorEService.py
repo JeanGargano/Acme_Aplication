@@ -21,7 +21,7 @@ class IAuditorExternoService(ABC):
         pass
 
     @abstractmethod
-    def eliminar_auditor_externo(self, id: str) -> bool:
+    def eliminar_auditor_externo(self, usuario: str) -> bool:
        pass
     
 
