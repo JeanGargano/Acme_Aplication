@@ -40,6 +40,9 @@ class RAGService:
                         propuestas con el enfoque de poder ser respondidas con cumple, cumple parcialmente o no cumple. Pero no debes agregar algun campo más,
                         solo debes darme las preguntas segun el siguiente formato, y el titulo extraelo del contexto, no le pongas "ejemplo de ...", ni nada parecido, el nombre 
                         de la norma o el lineamiento se saca del contexto y la descripcion tambien, intenta ser conciso y breve con la descripción.
+                        Algunas normas o lineamientos son internacionales y combaten problematicas globales, como se supone que una empresa se quiere certificar en estas normas o lineamientos por esto aterriza estos problemas
+                        globales a un contexto en el que la empresa pueda ser evaluada ya sea en su region, mercado o internamente en la empresa o en su defecto en el pais, pero siempre intenta de ir de menos global a más,
+                        todo esto para que tengan más sentido las preguntas y a la misma vez las respuestas asociadas.
                         Limita las preguntas a un máximo de 10. Que no se repitan las preguntas e intenta cubrir todos Solo aspectos o secciones de la norma o lineamiento.
                         Debe seguir el siguiente formato:
                         {{
