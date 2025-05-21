@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 class GeminiRepository:
     def __init__(self):
         self.api_key = os.getenv("API_KEY")
-        logger.info(f"apikey: {self.api_key}")
         if not self.api_key:
             raise ValueError("API_KEY no está configurada. Asegúrate de definirla en el archivo .env.")
         genai.configure(api_key=self.api_key) 
